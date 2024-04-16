@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Nhân Viên</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container my-2">
+    <h1>Danh sách nhân viên</h1>
+    <a th:href="@{/showNewNhanVienForm}" class="btn btn-primary btn-sm mb-3"> Add</a>
+    <form action="/searchNhanViens" method="get" class="my-3">
+        <div class="form-row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Tên phòng ban" name="tenPhongBan">
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" placeholder="Tuổi (<=)" name="tuoi">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Mã nhân viên</th>
+            <th>Tên nhân viên</th>
+            <th>Tên phòng ban</th>
+            <th>Giới tính</th>
+            <th>Tuổi</th>
+            <th>Tình trạng</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="nhanvien : ${listNhanViens}">
+            <td th:text="${nhanvien.maNV}"></td>
+            <td th:text="${nhanvien.tenNhanVien}"></td>
+            <td th:text="${nhanvien.tenPhongBan}"></td>
+            <td th:text="${nhanvien.gioiTinh}"></td>
+            <td th:text="${nhanvien.tuoi}"></td>
+            <td th:text="${nhanvien.tinhTrang}"></td>
+            <td>
+                <a th:href="@{/showFormForUpdate/{id}(id=${nhanvien.maNV})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteNhanVien/{id}(id=${nhanvien.maNV})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">Home</a>
+    <!-- Thông báo lỗi -->
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+</body>
+
+</html>
